@@ -1,4 +1,4 @@
-# 🌷 TULIP-Link & CNA Academy
+# CNA & TULIP-Link - Texas CNA Academy
 
 A free, mobile-friendly web application for the Texas healthcare community.
 
@@ -46,7 +46,7 @@ Point your phone camera at it and tap the link that appears.
 |---|---|
 | CNA Student | Study flashcards, take practice quizzes, use clinical skills checklists |
 | Active CNA | Track CEU hours, monitor TULIP renewal window countdown |
-| Director of Nursing | View staff matrix, pre-fill Form 5506-NAR, send mock SMS alerts |
+| Director of Nursing and Instructors| View staff matrix, pre-fill Form 5506-NAR, send mock SMS alerts |
 
 ---
 
