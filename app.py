@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import html
 from datetime import date, timedelta
 
 st.set_page_config(
@@ -413,6 +414,9 @@ TODAY = date.today()
 SCORE_THRESHOLD_ON_TRACK = 85
 SCORE_THRESHOLD_BUILDING = 60
 
+def esc(value):
+    return html.escape(str(value))
+
 def pct(value, total):
     if total == 0:
         return 0
@@ -533,7 +537,7 @@ def icon_for_category(category):
 
 def render_breadcrumb(items):
     crumb_html = "".join(
-        f"<span>{item}</span>" if idx == len(items) - 1 else f"<span>{item}</span><span>›</span>"
+        f"<span>{esc(item)}</span>" if idx == len(items) - 1 else f"<span>{esc(item)}</span><span>›</span>"
         for idx, item in enumerate(items)
     )
     st.markdown(f'<div class="breadcrumb-bar">{crumb_html}</div>', unsafe_allow_html=True)
@@ -544,18 +548,36 @@ def render_progress_summary(title, score, detail, badge_text, badge_class="badge
         <div class="progress-shell">
             <div class="progress-head">
                 <div>
-                    <div class="section-title">{title}</div>
-                    <div class="progress-copy">{detail}</div>
+                    <div class="section-title">{esc(title)}</div>
+                    <div class="progress-copy">{esc(detail)}</div>
                 </div>
                 <div style="text-align:right;">
                     <div class="progress-percent">{score}%</div>
-                    <span class="badge {badge_class}">{badge_text}</span>
+                    <span class="badge {esc(badge_class)}">{esc(badge_text)}</span>
                 </div>
             </div>
         </div>
         """,
         unsafe_allow_html=True
     )
+
+def render_course_card(icon, badge_class, badge_text, title, description, meta_left, meta_right, progress=None, thumb_style=""):
+    progress_html = ""
+    if progress is not None:
+        progress_html = f'<div class="mini-progress"><span style="width:{progress}%;"></span></div>'
+    return f"""
+        <div class="card interactive-card">
+            <div class="course-thumb" style="{thumb_style}">{esc(icon)}</div>
+            <span class="badge {esc(badge_class)}">{esc(badge_text)}</span>
+            <div class="course-card-title">{esc(title)}</div>
+            <div class="course-card-copy">{esc(description)}</div>
+            {progress_html}
+            <div class="course-card-meta">
+                <span>{esc(meta_left)}</span>
+                <span>{esc(meta_right)}</span>
+            </div>
+        </div>
+    """
 
 def make_5506_text(cna_row, facility_row, summary):
     return f"""
@@ -1142,13 +1164,13 @@ with st.sidebar:
 
 active_view = view_meta[view]
 render_breadcrumb(active_view["breadcrumb"])
-highlight_html = "".join(f'<span class="hero-chip">{item}</span>' for item in active_view["highlights"])
+highlight_html = "".join(f'<span class="hero-chip">{esc(item)}</span>' for item in active_view["highlights"])
 st.markdown(
     f"""
     <div class="main-hero">
-        <div class="eyebrow">{active_view["eyebrow"]}</div>
-        <div class="hero-title">🩺 {active_view["title"]}</div>
-        <div class="hero-copy">{active_view["description"]}</div>
+        <div class="eyebrow">{esc(active_view["eyebrow"])}</div>
+        <div class="hero-title">🩺 {esc(active_view["title"])}</div>
+        <div class="hero-copy">{esc(active_view["description"])}</div>
         <div class="hero-highlights">{highlight_html}</div>
     </div>
     """,
@@ -1232,19 +1254,16 @@ if view == "View A: Texas CNA Academy":
                 course_progress = pct(mastered_in_category, total_in_category)
                 with col:
                     st.markdown(
-                        f"""
-                        <div class="card interactive-card">
-                            <div class="course-thumb">{icon_for_category(category_name)}</div>
-                            <span class="badge {badge_class_for_category(category_name)}">{category_name}</span>
-                            <div class="course-card-title">{category_name}</div>
-                            <div class="course-card-copy">{category_descriptions[category_name]}</div>
-                            <div class="mini-progress"><span style="width:{course_progress}%;"></span></div>
-                            <div class="course-card-meta">
-                                <span>{course_progress}% mastered</span>
-                                <span>{review_in_category} review</span>
-                            </div>
-                        </div>
-                        """,
+                        render_course_card(
+                            icon_for_category(category_name),
+                            badge_class_for_category(category_name),
+                            category_name,
+                            category_name,
+                            category_descriptions[category_name],
+                            f"{course_progress}% mastered",
+                            f"{review_in_category} review",
+                            progress=course_progress
+                        ),
                         unsafe_allow_html=True
                     )
         st.markdown("### Lesson Outlines")
@@ -1265,7 +1284,7 @@ if view == "View A: Texas CNA Academy":
             st.markdown(
                 f"""
                 <div class="pill-row">
-                    <span class="pill">Current focus: {category}</span>
+                    <span class="pill">Current focus: {esc(category)}</span>
                     <span class="pill">Deck size: {len(flashcards)} cards</span>
                 </div>
                 """,
@@ -1313,11 +1332,11 @@ if view == "View A: Texas CNA Academy":
                     f"""
                     <div class="soft-card interactive-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                            <span class="badge {badge_class_for_category(card['category'])}">{card['category']}</span>
+                            <span class="badge {badge_class_for_category(card['category'])}">{esc(card['category'])}</span>
                             <span style="font-size:0.90rem; color:#0f5db4; font-weight:700;">{st.session_state.flash_index + 1}/{len(filtered_flashcards)}</span>
                         </div>
                         <h3>{'Answer' if st.session_state.flash_flip else 'Question'}</h3>
-                        <p style="font-size:1.06rem; line-height:1.6;">{card['back'] if st.session_state.flash_flip else card['front']}</p>
+                        <p style="font-size:1.06rem; line-height:1.6;">{esc(card['back'] if st.session_state.flash_flip else card['front'])}</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -1626,11 +1645,11 @@ elif view == "View B: CNA CEUs & TULIP-Link":
         st.markdown("### Sponsored Texas CEU Placeholder")
         s1, s2, s3 = st.columns(3)
         with s1:
-            st.markdown('<div class="soft-card interactive-card"><div class="course-thumb" style="height:76px; margin-bottom:.75rem;">👵</div><span class="badge badge-green">Geriatrics</span><div class="course-card-title">Geriatric Care Update</div><div class="course-card-copy">Refresh core aging-care practices while filling a major renewal requirement.</div><div class="course-card-meta"><span>8 hours</span><span>Sponsored slot</span></div></div>', unsafe_allow_html=True)
+            st.markdown(render_course_card("👵", "badge-green", "Geriatrics", "Geriatric Care Update", "Refresh core aging-care practices while filling a major renewal requirement.", "8 hours", "Sponsored slot", thumb_style="height:76px; margin-bottom:.75rem;"), unsafe_allow_html=True)
         with s2:
-            st.markdown('<div class="soft-card interactive-card"><div class="course-thumb" style="height:76px; margin-bottom:.75rem;">🧠</div><span class="badge badge-blue">Memory Care</span><div class="course-card-title">Dementia & Alzheimer’s Care</div><div class="course-card-copy">Build confidence in calmer communication, redirection, and safer support routines.</div><div class="course-card-meta"><span>8 hours</span><span>Sponsored slot</span></div></div>', unsafe_allow_html=True)
+            st.markdown(render_course_card("🧠", "badge-blue", "Memory Care", "Dementia & Alzheimer’s Care", "Build confidence in calmer communication, redirection, and safer support routines.", "8 hours", "Sponsored slot", thumb_style="height:76px; margin-bottom:.75rem;"), unsafe_allow_html=True)
         with s3:
-            st.markdown('<div class="soft-card interactive-card"><div class="course-thumb" style="height:76px; margin-bottom:.75rem;">🦠</div><span class="badge badge-orange">Safety</span><div class="course-card-title">Infection Control Refresher</div><div class="course-card-copy">Keep annual safety documentation current with a faster, cleaner training entry point.</div><div class="course-card-meta"><span>Annual</span><span>Priority topic</span></div></div>', unsafe_allow_html=True)
+            st.markdown(render_course_card("🦠", "badge-orange", "Safety", "Infection Control Refresher", "Keep annual safety documentation current with a faster, cleaner training entry point.", "Annual", "Priority topic", thumb_style="height:76px; margin-bottom:.75rem;"), unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with tab6:
