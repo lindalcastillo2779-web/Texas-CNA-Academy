@@ -854,15 +854,18 @@ if view == "View A: Texas CNA Academy":
                 card_index, card = filtered_flashcards[st.session_state.flash_index]
                 st.caption(f"Card {st.session_state.flash_index + 1} of {len(filtered_flashcards)} • {card['category']}")
 
+                is_back = st.session_state.flash_flip
                 st.markdown(
                     f"""
-                    <div class="soft-card">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                            <span style="font-size:0.95rem; color:#475569; font-weight:700;">{card['category']}</span>
-                            <span style="font-size:0.90rem; color:#0f766e;">{st.session_state.flash_index + 1}/{len(filtered_flashcards)}</span>
+                    <div style="background:#ffffff; border:1px solid #d1d5db; border-radius:0.5rem; padding:1.5rem;
+                                aspect-ratio:1/1; display:flex; flex-direction:column; justify-content:center; align-items:center;
+                                text-align:center; margin-bottom:1rem;">
+                        <div style="font-size:0.85rem; color:#475569; font-weight:600; margin-bottom:0.6rem; align-self:flex-start;">
+                            {'Answer' if is_back else 'Question'} &nbsp;·&nbsp; {card['category']}
                         </div>
-                        <h3>{'Answer' if st.session_state.flash_flip else 'Question'}</h3>
-                        <p style="font-size:1.06rem; line-height:1.6;">{card['back'] if st.session_state.flash_flip else card['front']}</p>
+                        <p style="color:#000000; font-size:{'1.15rem' if is_back else '1.4rem'}; font-weight:{'700' if not is_back else '400'}; line-height:1.6; margin:0;">
+                            {card['back'] if is_back else card['front']}
+                        </p>
                     </div>
                     """, unsafe_allow_html=True
                 )
