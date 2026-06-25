@@ -63,8 +63,8 @@ body { background:var(--bg); }
     margin-bottom:1rem;
 }
 .soft-card{
-    background:var(--surface-2);
-    border:1px solid var(--border);
+    background:#ecfeff;
+    border:1px solid #67e8f9;
     border-radius:var(--radius);
     padding:1rem;
     margin-bottom:1rem;
