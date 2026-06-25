@@ -410,6 +410,8 @@ div[data-testid="stDataFrame"]{
 # HELPERS
 # =========================================================
 TODAY = date.today()
+SCORE_THRESHOLD_ON_TRACK = 85
+SCORE_THRESHOLD_BUILDING = 60
 
 def pct(value, total):
     if total == 0:
@@ -482,11 +484,18 @@ def missing_items(summary):
     return items
 
 def milestone_label(score):
-    if score >= 85:
+    if score >= SCORE_THRESHOLD_ON_TRACK:
         return "On track"
-    if score >= 60:
+    if score >= SCORE_THRESHOLD_BUILDING:
         return "Building momentum"
     return "Needs attention"
+
+def milestone_badge_class(score):
+    if score >= SCORE_THRESHOLD_ON_TRACK:
+        return "badge-green"
+    if score >= SCORE_THRESHOLD_BUILDING:
+        return "badge-orange"
+    return "badge-blue"
 
 def badge_class_for_category(category):
     palette = {
@@ -824,6 +833,7 @@ category_descriptions = {
     "Restorative Care": "Encourage independence safely and follow restorative plans consistently.",
     "Documentation and Reporting": "Document observations accurately and report changes clearly.",
 }
+flashcard_categories = ["All Categories"] + sorted(category_descriptions)
 
 view_meta = {
     "View A: Texas CNA Academy": {
@@ -1086,8 +1096,7 @@ with st.sidebar:
     )
 
     if view == "View A: Texas CNA Academy":
-        categories = ["All Categories"] + sorted({card["category"] for card in flashcards})
-        st.selectbox("Filter flashcards by category", categories, key="flash_category")
+        st.selectbox("Filter flashcards by category", flashcard_categories, key="flash_category")
         if st.session_state.flash_category != "All Categories":
             st.caption(category_descriptions.get(st.session_state.flash_category, ""))
         st.markdown(
@@ -1188,7 +1197,7 @@ if view == "View A: Texas CNA Academy":
         readiness_pct,
         "A brighter progress view highlights completion percentage, study momentum, and milestone status at a glance.",
         milestone_label(readiness_pct),
-        "badge-green" if readiness_pct >= 85 else "badge-orange" if readiness_pct >= 60 else "badge-blue"
+        milestone_badge_class(readiness_pct)
     )
     st.progress(readiness_pct / 100)
     st.write(f"Readiness score: **{readiness_pct}%** complete")
@@ -1250,7 +1259,6 @@ if view == "View A: Texas CNA Academy":
         st.markdown("### Interactive Flashcards")
         st.markdown('<div class="info-card">Use the sidebar category filter to narrow the deck, then flip cards and mark mastery as you go.</div>', unsafe_allow_html=True)
 
-        categories = ["All Categories"] + sorted({card["category"] for card in flashcards})
         category = st.session_state.flash_category
         c1, c2 = st.columns([2, 1])
         with c1:
@@ -1279,10 +1287,10 @@ if view == "View A: Texas CNA Academy":
             st.metric("Category", category)
             st.metric("Visible cards", f"{filtered_count}/{total_cards}")
 
-        if st.session_state.flash_category != st.session_state.flash_category_prev:
+        if category != st.session_state.flash_category_prev:
             st.session_state.flash_index = 0
             st.session_state.flash_flip = False
-            st.session_state.flash_category_prev = st.session_state.flash_category
+            st.session_state.flash_category_prev = category
 
         filtered_flashcards = [
             (idx, card)
@@ -1540,7 +1548,7 @@ elif view == "View B: CNA CEUs & TULIP-Link":
         score,
         "Monitor completion percentage, identify missing training, and keep the next milestone visible before the TULIP window opens.",
         milestone_label(score),
-        "badge-green" if score >= 85 else "badge-orange" if score >= 60 else "badge-blue"
+        milestone_badge_class(score)
     )
 
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
