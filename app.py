@@ -15,25 +15,29 @@ st.set_page_config(
 st.markdown("""
 <style>
 :root{
-    --bg:#f6f5f1;
+    --bg:#f5f7fb;
     --surface:#ffffff;
-    --surface-2:#f3f4f6;
-    --surface-3:#ecfeff;
-    --text:#1f2937;
-    --muted:#6b7280;
-    --primary:#0f766e;
-    --primary-dark:#134e4a;
-    --border:#d1d5db;
-    --success:#166534;
-    --success-soft:#dcfce7;
-    --danger:#b91c1c;
-    --danger-soft:#fee2e2;
+    --surface-2:#f8fafc;
+    --surface-3:#eef6ff;
+    --text:#16253d;
+    --muted:#5c6b82;
+    --primary:#1d74d7;
+    --primary-dark:#0d4f9b;
+    --orange:#ff7a1a;
+    --orange-soft:#fff1e7;
+    --green:#1ca35d;
+    --green-soft:#e8fbef;
+    --blue-soft:#e8f2ff;
+    --danger:#c2410c;
+    --danger-soft:#fff0ea;
     --warning:#b45309;
-    --warning-soft:#ffedd5;
-    --info:#075985;
-    --info-soft:#e0f2fe;
-    --shadow:0 10px 24px rgba(15,23,42,.08);
-    --radius:18px;
+    --warning-soft:#fff4d6;
+    --info:#0f5db4;
+    --info-soft:#e7f1ff;
+    --border:#dce5f0;
+    --shadow:0 18px 42px rgba(21,42,73,.08);
+    --shadow-hover:0 24px 48px rgba(21,42,73,.14);
+    --radius:22px;
     --radius-sm:12px;
 }
 html, body, [class*="css"] {
@@ -46,21 +50,79 @@ body { background:var(--bg); }
     padding-bottom:4rem;
     max-width:1280px;
 }
+.stApp{
+    background:
+        radial-gradient(circle at top left, rgba(255,122,26,.10), transparent 24%),
+        radial-gradient(circle at top right, rgba(29,116,215,.10), transparent 28%),
+        var(--bg);
+}
 .main-hero{
-    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
-    color:white;
+    background:linear-gradient(135deg,#ffffff 0%,#f7fbff 58%,#eef6ff 100%);
+    color:var(--text);
     border-radius:var(--radius);
-    padding:1.2rem 1.2rem;
+    padding:1.5rem 1.5rem;
     box-shadow:var(--shadow);
-    margin-bottom:1rem;
+    border:1px solid rgba(29,116,215,.10);
+    margin-bottom:1.2rem;
+}
+.eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:.45rem;
+    border-radius:999px;
+    background:var(--orange-soft);
+    color:var(--orange);
+    padding:.36rem .72rem;
+    font-size:.8rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+.hero-title{
+    font-size:2.35rem;
+    line-height:1.12;
+    margin:.9rem 0 .55rem;
+    font-weight:800;
+}
+.hero-copy{
+    color:var(--muted);
+    font-size:1.02rem;
+    line-height:1.65;
+    max-width:760px;
+}
+.hero-highlights{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.75rem;
+    margin-top:1.1rem;
+}
+.hero-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.45rem;
+    padding:.6rem .88rem;
+    border-radius:16px;
+    background:#fff;
+    border:1px solid var(--border);
+    color:var(--text);
+    font-weight:600;
+}
+.breadcrumb-bar{
+    display:flex;
+    align-items:center;
+    gap:.45rem;
+    color:var(--muted);
+    font-size:.9rem;
+    font-weight:600;
+    margin:0 0 .8rem .2rem;
 }
 .card{
     background:var(--surface);
     border:1px solid var(--border);
     border-radius:var(--radius);
-    padding:1rem;
+    padding:1.15rem;
     box-shadow:var(--shadow);
-    margin-bottom:1rem;
+    margin-bottom:1.15rem;
 }
 .soft-card{
     background:var(--surface-2);
@@ -69,9 +131,17 @@ body { background:var(--bg); }
     padding:1rem;
     margin-bottom:1rem;
 }
+.interactive-card{
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.interactive-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-hover);
+    border-color:rgba(29,116,215,.24);
+}
 .info-card{
-    background:var(--surface-3);
-    border:1px solid #bae6fd;
+    background:linear-gradient(135deg,#f8fbff 0%,#eef6ff 100%);
+    border:1px solid #cfe1fb;
     border-radius:var(--radius);
     padding:1rem;
     margin-bottom:1rem;
@@ -87,7 +157,7 @@ body { background:var(--bg); }
 }
 .kpi{
     color:var(--primary);
-    font-size:1.85rem;
+    font-size:2rem;
     font-weight:800;
 }
 .label{
@@ -101,10 +171,11 @@ body { background:var(--bg); }
     font-size:.82rem;
     font-weight:700;
 }
-.badge-green{background:var(--success-soft);color:var(--success);}
+.badge-green{background:var(--green-soft);color:var(--green);}
 .badge-red{background:var(--danger-soft);color:var(--danger);}
 .badge-amber{background:var(--warning-soft);color:var(--warning);}
 .badge-blue{background:var(--info-soft);color:var(--info);}
+.badge-orange{background:var(--orange-soft);color:var(--orange);}
 .critical{
     color:var(--danger);
     font-weight:800;
@@ -132,6 +203,194 @@ body { background:var(--bg); }
     color:var(--muted);
     font-size:.88rem;
 }
+.progress-shell{
+    background:linear-gradient(180deg,#fff 0%,#f8fbff 100%);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:1rem 1.1rem;
+    margin-bottom:1rem;
+    box-shadow:var(--shadow);
+}
+.progress-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:1rem;
+    margin-bottom:.7rem;
+}
+.progress-percent{
+    font-size:2.25rem;
+    font-weight:800;
+    color:var(--primary-dark);
+    line-height:1;
+}
+.progress-copy{
+    color:var(--muted);
+    font-size:.94rem;
+}
+.course-thumb{
+    height:88px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#1d74d7 0%,#42a1ff 55%,#7ec9ff 100%);
+    color:#fff;
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-start;
+    padding:1rem;
+    font-size:1.65rem;
+    font-weight:800;
+    margin-bottom:.9rem;
+}
+.course-card-title{
+    font-size:1.06rem;
+    font-weight:800;
+    margin:.7rem 0 .35rem;
+}
+.course-card-copy{
+    color:var(--muted);
+    min-height:3.4rem;
+    line-height:1.55;
+    font-size:.93rem;
+}
+.mini-progress{
+    width:100%;
+    height:10px;
+    background:#e7eef7;
+    border-radius:999px;
+    overflow:hidden;
+    margin:.85rem 0 .45rem;
+}
+.mini-progress > span{
+    display:block;
+    height:100%;
+    background:linear-gradient(90deg,var(--orange) 0%,#ff9d4d 48%,var(--green) 100%);
+    border-radius:999px;
+}
+.course-card-meta{
+    display:flex;
+    justify-content:space-between;
+    gap:.65rem;
+    color:var(--muted);
+    font-size:.85rem;
+}
+.quiz-shell{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:1rem;
+    margin-bottom:.9rem;
+}
+.quiz-label{
+    color:var(--primary);
+    font-size:.82rem;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-bottom:.4rem;
+}
+.pill-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.55rem;
+    margin-bottom:.85rem;
+}
+.pill{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:.45rem .8rem;
+    font-size:.87rem;
+    color:var(--text);
+    font-weight:600;
+}
+.section-title{
+    font-size:1.35rem;
+    font-weight:800;
+    margin:0 0 .85rem;
+}
+section[data-testid="stSidebar"]{
+    background:linear-gradient(180deg,#f8fbff 0%,#eef5fc 100%);
+    border-right:1px solid var(--border);
+}
+section[data-testid="stSidebar"] .block-container{
+    padding-top:1.15rem;
+}
+[data-testid="stSidebar"] .sidebar-brand{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:1rem;
+    box-shadow:var(--shadow);
+    margin-bottom:1rem;
+}
+[data-testid="stSidebar"] .sidebar-panel{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:.9rem 1rem;
+    margin-top:1rem;
+}
+[data-testid="stSidebar"] .sidebar-panel p{
+    color:var(--muted);
+    margin-bottom:.3rem;
+}
+[data-testid="stSidebar"] .stRadio > label,
+[data-testid="stSidebar"] .stSelectbox > label{
+    font-weight:700;
+    color:var(--text);
+}
+[data-testid="stSidebar"] .stRadio [role="radiogroup"]{
+    gap:.5rem;
+}
+[data-testid="stSidebar"] .stRadio [role="radiogroup"] > label{
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:14px;
+    padding:.55rem .7rem;
+}
+[data-testid="stSidebar"] .stButton button,
+.stButton button{
+    border-radius:14px;
+    border:1px solid transparent;
+    background:linear-gradient(135deg,var(--orange) 0%,#ff9d4d 100%);
+    color:#fff;
+    font-weight:700;
+    box-shadow:none;
+}
+.stButton button:hover{
+    border-color:transparent;
+    color:#fff;
+}
+.stTabs [data-baseweb="tab-list"]{
+    gap:.45rem;
+    flex-wrap:wrap;
+}
+.stTabs [data-baseweb="tab"]{
+    height:auto;
+    padding:.55rem .9rem;
+    background:#fff;
+    border-radius:999px;
+    border:1px solid var(--border);
+}
+.stTabs [aria-selected="true"]{
+    color:var(--primary);
+    border-color:rgba(29,116,215,.28);
+    background:var(--info-soft);
+}
+div[data-testid="stProgressBar"] > div > div{
+    background:#e5edf7;
+    border-radius:999px;
+}
+div[data-testid="stProgressBar"] > div > div > div{
+    background:linear-gradient(90deg,var(--orange) 0%,#ffa44c 45%,var(--green) 100%);
+    border-radius:999px;
+}
+div[data-testid="stAlert"]{
+    border-radius:16px;
+}
 div[data-testid="stDataFrame"]{
     border:1px solid var(--border);
     border-radius:var(--radius);
@@ -139,7 +398,10 @@ div[data-testid="stDataFrame"]{
 }
 @media (max-width:768px){
     .block-container{padding-left:.8rem;padding-right:.8rem;}
-    .kpi{font-size:1.45rem;}
+    .hero-title{font-size:1.8rem;}
+    .kpi,.progress-percent{font-size:1.55rem;}
+    .progress-head,.course-card-meta{flex-direction:column;}
+    .course-card-copy{min-height:auto;}
 }
 </style>
 """, unsafe_allow_html=True)
@@ -218,6 +480,73 @@ def missing_items(summary):
     else:
         items.append("Monitor countdown until 90-day TULIP window opens")
     return items
+
+def milestone_label(score):
+    if score >= 85:
+        return "On track"
+    if score >= 60:
+        return "Building momentum"
+    return "Needs attention"
+
+def badge_class_for_category(category):
+    palette = {
+        "Infection Control": "badge-orange",
+        "Resident Rights": "badge-blue",
+        "Communication": "badge-green",
+        "Safety": "badge-orange",
+        "Transfers and Mobility": "badge-blue",
+        "Vital Signs": "badge-green",
+        "Elimination": "badge-orange",
+        "Nutrition and Hydration": "badge-green",
+        "Skin Care and Personal Care": "badge-blue",
+        "Mental Health and Social Needs": "badge-green",
+        "Restorative Care": "badge-orange",
+        "Documentation and Reporting": "badge-blue"
+    }
+    return palette.get(category, "badge-blue")
+
+def icon_for_category(category):
+    icons = {
+        "Infection Control": "🧼",
+        "Resident Rights": "🫶",
+        "Communication": "💬",
+        "Safety": "🛡️",
+        "Transfers and Mobility": "♿",
+        "Vital Signs": "💓",
+        "Elimination": "🧪",
+        "Nutrition and Hydration": "🥗",
+        "Skin Care and Personal Care": "🧴",
+        "Mental Health and Social Needs": "🌤️",
+        "Restorative Care": "🏃",
+        "Documentation and Reporting": "📝"
+    }
+    return icons.get(category, "📘")
+
+def render_breadcrumb(items):
+    crumb_html = "".join(
+        f"<span>{item}</span>" if idx == len(items) - 1 else f"<span>{item}</span><span>›</span>"
+        for idx, item in enumerate(items)
+    )
+    st.markdown(f'<div class="breadcrumb-bar">{crumb_html}</div>', unsafe_allow_html=True)
+
+def render_progress_summary(title, score, detail, badge_text, badge_class="badge-blue"):
+    st.markdown(
+        f"""
+        <div class="progress-shell">
+            <div class="progress-head">
+                <div>
+                    <div class="section-title">{title}</div>
+                    <div class="progress-copy">{detail}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div class="progress-percent">{score}%</div>
+                    <span class="badge {badge_class}">{badge_text}</span>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 def make_5506_text(cna_row, facility_row, summary):
     return f"""
@@ -496,6 +825,30 @@ category_descriptions = {
     "Documentation and Reporting": "Document observations accurately and report changes clearly.",
 }
 
+view_meta = {
+    "View A: Texas CNA Academy": {
+        "eyebrow": "Study.com-inspired learning",
+        "title": "A cleaner, brighter CNA prep experience",
+        "description": "Move from study tracks to flashcards, quizzes, and clinical skills with a modern course-card layout built for focused review sessions.",
+        "breadcrumb": ["Home", "CNA Academy"],
+        "highlights": ["Interactive course cards", "Progress milestones", "Quiz feedback"]
+    },
+    "View B: CNA CEUs & TULIP-Link": {
+        "eyebrow": "Renewal planning",
+        "title": "Track CEUs and TULIP readiness in one place",
+        "description": "See readiness, missing steps, and sponsored learning opportunities with cleaner dashboards and easier scanability.",
+        "breadcrumb": ["Home", "Renewal Hub"],
+        "highlights": ["Prominent progress", "Checklist-based guidance", "Sponsored CEU cards"]
+    },
+    "View C: DON or Instructors & Facility Dashboard": {
+        "eyebrow": "Facility oversight",
+        "title": "Facility-ready compliance dashboards for leaders",
+        "description": "Filter urgent staff, review readiness indicators, and coordinate follow-up actions with stronger hierarchy and spacing.",
+        "breadcrumb": ["Home", "Facility Dashboard"],
+        "highlights": ["Risk filtering", "Action center", "Compliance matrix"]
+    }
+}
+
 written_quiz = [
     {
         "q": "Which action best supports infection prevention?",
@@ -712,15 +1065,17 @@ common_delay_mistakes = [
 # =========================================================
 # HEADER
 # =========================================================
-st.markdown("""
-<div class="main-hero">
-    <h1>🩺 TULIP-Link CNA Academy</h1>
-    <div>Study tools, flashcards, and TULIP renewal guidance built for Texas nurse aides and facility teams.</div>
-</div>
-""", unsafe_allow_html=True)
-
 with st.sidebar:
-    st.header("Navigation")
+    st.markdown(
+        """
+        <div class="sidebar-brand">
+            <div class="eyebrow">TULIP-Link CNA Academy</div>
+            <h3 style="margin:.8rem 0 .45rem;">Study.com-style navigation</h3>
+            <p>Jump between study, renewal, and facility workflows without losing your place.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     view = st.radio(
         "Choose your path",
         [
@@ -729,21 +1084,67 @@ with st.sidebar:
             "View C: DON or Instructors & Facility Dashboard"
         ]
     )
-    st.markdown("---")
+
     if view == "View A: Texas CNA Academy":
-        st.caption("Practice flashcards, written questions, and clinical skills review for CNA certification.")
+        categories = ["All Categories"] + sorted({card["category"] for card in flashcards})
+        st.selectbox("Filter flashcards by category", categories, key="flash_category")
+        if st.session_state.flash_category != "All Categories":
+            st.caption(category_descriptions.get(st.session_state.flash_category, ""))
+        st.markdown(
+            """
+            <div class="sidebar-panel">
+                <strong>Academy focus</strong>
+                <p>Practice flashcards, written questions, and clinical skill checklists in smaller study sprints.</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
     elif view == "View B: CNA CEUs & TULIP-Link":
-        st.caption("Track renewal progress, review in-service requirements, and stay ready for the TULIP window.")
+        st.markdown(
+            """
+            <div class="sidebar-panel">
+                <strong>Renewal focus</strong>
+                <p>Track in-service requirements, watch the TULIP countdown, and clear missing items faster.</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
     else:
-        st.caption("Monitor facility-level DON compliance, verification tasks, and CNA renewal support workflows.")
-    st.markdown("---")
-    st.caption("Built for students, active CNAs, and nursing facility leadership.")
-    st.markdown("### Quick start")
-    st.write(
-        "- Pick the view that matches your role\n"
-        "- Use flashcard categories to focus study\n"
-        "- Track readiness progress before test or renewal"
+        st.markdown(
+            """
+            <div class="sidebar-panel">
+                <strong>Leadership focus</strong>
+                <p>Monitor facility-level readiness, prioritize urgent staff, and support renewal follow-through.</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    st.markdown(
+        """
+        <div class="sidebar-panel">
+            <strong>Quick start</strong>
+            <p>1. Pick the role that matches your workflow.</p>
+            <p>2. Use the highlighted cards and milestones to spot your next action.</p>
+            <p>3. Track progress before test day, renewal, or staff outreach.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
+
+active_view = view_meta[view]
+render_breadcrumb(active_view["breadcrumb"])
+highlight_html = "".join(f'<span class="hero-chip">{item}</span>' for item in active_view["highlights"])
+st.markdown(
+    f"""
+    <div class="main-hero">
+        <div class="eyebrow">{active_view["eyebrow"]}</div>
+        <div class="hero-title">🩺 {active_view["title"]}</div>
+        <div class="hero-copy">{active_view["description"]}</div>
+        <div class="hero-highlights">{highlight_html}</div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================================================
 # VIEW A
@@ -782,11 +1183,15 @@ if view == "View A: Texas CNA Academy":
     with m3:
         st.markdown(f'<div class="metric-card"><div class="kpi">{skills_score}/{len(skills_quiz)}</div><div class="label">Skills Quiz Score</div></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("### Test Readiness Progress")
+    render_progress_summary(
+        "Test readiness progress",
+        readiness_pct,
+        "A brighter progress view highlights completion percentage, study momentum, and milestone status at a glance.",
+        milestone_label(readiness_pct),
+        "badge-green" if readiness_pct >= 85 else "badge-orange" if readiness_pct >= 60 else "badge-blue"
+    )
     st.progress(readiness_pct / 100)
-    st.write(f"Readiness score: **{readiness_pct}%**")
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.write(f"Readiness score: **{readiness_pct}%** complete")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
         "Study Tracks",
@@ -800,7 +1205,40 @@ if view == "View A: Texas CNA Academy":
 
     with tab1:
         st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("### Texas Study Tracks")
+        st.markdown("### Featured Study Tracks")
+        st.caption("Browse cleaner course cards with category badges, quick descriptions, and progress indicators before opening the lesson outline below.")
+        categories_for_cards = sorted(category_descriptions.keys())
+        for start in range(0, len(categories_for_cards), 3):
+            cols = st.columns(3)
+            for col, category_name in zip(cols, categories_for_cards[start:start + 3]):
+                total_in_category = sum(1 for card in flashcards if card["category"] == category_name)
+                mastered_in_category = sum(
+                    1 for idx in st.session_state.mastered_cards
+                    if 0 <= idx < len(flashcards) and flashcards[idx]["category"] == category_name
+                )
+                review_in_category = sum(
+                    1 for idx in st.session_state.review_cards
+                    if 0 <= idx < len(flashcards) and flashcards[idx]["category"] == category_name
+                )
+                course_progress = pct(mastered_in_category, total_in_category)
+                with col:
+                    st.markdown(
+                        f"""
+                        <div class="card interactive-card">
+                            <div class="course-thumb">{icon_for_category(category_name)}</div>
+                            <span class="badge {badge_class_for_category(category_name)}">{category_name}</span>
+                            <div class="course-card-title">{category_name}</div>
+                            <div class="course-card-copy">{category_descriptions[category_name]}</div>
+                            <div class="mini-progress"><span style="width:{course_progress}%;"></span></div>
+                            <div class="course-card-meta">
+                                <span>{course_progress}% mastered</span>
+                                <span>{review_in_category} review</span>
+                            </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
+        st.markdown("### Lesson Outlines")
         for track in study_tracks:
             with st.expander(track["title"], expanded=False):
                 for item in track["items"]:
@@ -810,12 +1248,21 @@ if view == "View A: Texas CNA Academy":
     with tab2:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("### Interactive Flashcards")
-        st.markdown('<div class="info-card">Select a category, flip cards to see the answer, then mark cards as mastered or for review.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="info-card">Use the sidebar category filter to narrow the deck, then flip cards and mark mastery as you go.</div>', unsafe_allow_html=True)
 
         categories = ["All Categories"] + sorted({card["category"] for card in flashcards})
+        category = st.session_state.flash_category
         c1, c2 = st.columns([2, 1])
         with c1:
-            category = st.selectbox("Filter by category", categories, key="flash_category")
+            st.markdown(
+                f"""
+                <div class="pill-row">
+                    <span class="pill">Current focus: {category}</span>
+                    <span class="pill">Deck size: {len(flashcards)} cards</span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             if st.button("Reset to All Categories", use_container_width=True):
                 st.session_state.flash_category = "All Categories"
                 st.session_state.flash_category_prev = "All Categories"
@@ -856,10 +1303,10 @@ if view == "View A: Texas CNA Academy":
 
                 st.markdown(
                     f"""
-                    <div class="soft-card">
+                    <div class="soft-card interactive-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                            <span style="font-size:0.95rem; color:#475569; font-weight:700;">{card['category']}</span>
-                            <span style="font-size:0.90rem; color:#0f766e;">{st.session_state.flash_index + 1}/{len(filtered_flashcards)}</span>
+                            <span class="badge {badge_class_for_category(card['category'])}">{card['category']}</span>
+                            <span style="font-size:0.90rem; color:#0f5db4; font-weight:700;">{st.session_state.flash_index + 1}/{len(filtered_flashcards)}</span>
                         </div>
                         <h3>{'Answer' if st.session_state.flash_flip else 'Question'}</h3>
                         <p style="font-size:1.06rem; line-height:1.6;">{card['back'] if st.session_state.flash_flip else card['front']}</p>
@@ -946,8 +1393,19 @@ if view == "View A: Texas CNA Academy":
     with tab3:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("### Written Practice Quiz")
+        answered_written = len(st.session_state.written_answers)
+        st.progress(answered_written / len(written_quiz))
+        st.caption(f"Completion: {answered_written}/{len(written_quiz)} questions answered")
         for i, item in enumerate(written_quiz):
-            st.markdown(f"**Q{i+1}. {item['q']}**")
+            st.markdown(
+                f"""
+                <div class="quiz-shell">
+                    <div class="quiz-label">Question {i+1} of {len(written_quiz)}</div>
+                    <strong>{item['q']}</strong>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             ans = st.radio(
                 f"Choose answer for written question {i+1}",
                 item["choices"],
@@ -994,8 +1452,19 @@ if view == "View A: Texas CNA Academy":
     with tab5:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("### Skills Quiz")
+        answered_skills = len(st.session_state.skills_answers)
+        st.progress(answered_skills / len(skills_quiz))
+        st.caption(f"Completion: {answered_skills}/{len(skills_quiz)} skills questions answered")
         for i, item in enumerate(skills_quiz):
-            st.markdown(f"**Q{i+1}. {item['q']}**")
+            st.markdown(
+                f"""
+                <div class="quiz-shell">
+                    <div class="quiz-label">Skills question {i+1} of {len(skills_quiz)}</div>
+                    <strong>{item['q']}</strong>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             ans = st.radio(
                 f"Choose answer for skills question {i+1}",
                 item["choices"],
@@ -1065,6 +1534,14 @@ elif view == "View B: CNA CEUs & TULIP-Link":
         st.markdown(f'<div class="metric-card"><div class="kpi">{status}</div><div class="label">TULIP Window</div></div>', unsafe_allow_html=True)
     with m4:
         st.markdown(f'<div class="metric-card"><div class="kpi">{summary["days_left"]}</div><div class="label">Days Until Expiration</div></div>', unsafe_allow_html=True)
+
+    render_progress_summary(
+        "Renewal readiness",
+        score,
+        "Monitor completion percentage, identify missing training, and keep the next milestone visible before the TULIP window opens.",
+        milestone_label(score),
+        "badge-green" if score >= 85 else "badge-orange" if score >= 60 else "badge-blue"
+    )
 
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "Dashboard",
@@ -1141,11 +1618,11 @@ elif view == "View B: CNA CEUs & TULIP-Link":
         st.markdown("### Sponsored Texas CEU Placeholder")
         s1, s2, s3 = st.columns(3)
         with s1:
-            st.markdown('<div class="soft-card"><strong>Geriatric Care Update</strong><br><span class="small-muted">8 hours • Sponsored Texas CEU placement</span></div>', unsafe_allow_html=True)
+            st.markdown('<div class="soft-card interactive-card"><div class="course-thumb" style="height:76px; margin-bottom:.75rem;">👵</div><span class="badge badge-green">Geriatrics</span><div class="course-card-title">Geriatric Care Update</div><div class="course-card-copy">Refresh core aging-care practices while filling a major renewal requirement.</div><div class="course-card-meta"><span>8 hours</span><span>Sponsored slot</span></div></div>', unsafe_allow_html=True)
         with s2:
-            st.markdown('<div class="soft-card"><strong>Dementia & Alzheimer’s Care</strong><br><span class="small-muted">8 hours • Sponsored Texas CEU placement</span></div>', unsafe_allow_html=True)
+            st.markdown('<div class="soft-card interactive-card"><div class="course-thumb" style="height:76px; margin-bottom:.75rem;">🧠</div><span class="badge badge-blue">Memory Care</span><div class="course-card-title">Dementia & Alzheimer’s Care</div><div class="course-card-copy">Build confidence in calmer communication, redirection, and safer support routines.</div><div class="course-card-meta"><span>8 hours</span><span>Sponsored slot</span></div></div>', unsafe_allow_html=True)
         with s3:
-            st.markdown('<div class="soft-card"><strong>Infection Control Refresher</strong><br><span class="small-muted">Annual training placement area</span></div>', unsafe_allow_html=True)
+            st.markdown('<div class="soft-card interactive-card"><div class="course-thumb" style="height:76px; margin-bottom:.75rem;">🦠</div><span class="badge badge-orange">Safety</span><div class="course-card-title">Infection Control Refresher</div><div class="course-card-copy">Keep annual safety documentation current with a faster, cleaner training entry point.</div><div class="course-card-meta"><span>Annual</span><span>Priority topic</span></div></div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with tab6:
