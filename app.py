@@ -132,6 +132,23 @@ body { background:var(--bg); }
     color:var(--muted);
     font-size:.88rem;
 }
+.home-btn-card{
+    background:var(--surface);
+    border:2px solid var(--primary);
+    border-radius:var(--radius);
+    padding:2rem 1.5rem;
+    box-shadow:var(--shadow);
+    text-align:center;
+    margin-bottom:1rem;
+    min-height:180px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.home-btn-icon{font-size:2.6rem;margin-bottom:.5rem;}
+.home-btn-title{font-size:1.2rem;font-weight:800;color:var(--primary-dark);margin-bottom:.35rem;}
+.home-btn-desc{font-size:.9rem;color:var(--muted);line-height:1.45;}
 div[data-testid="stDataFrame"]{
     border:1px solid var(--border);
     border-radius:var(--radius);
@@ -268,6 +285,7 @@ Use official Texas HHSC forms and TULIP for real submission.
 # SESSION STATE
 # =========================================================
 defaults = {
+    "current_view": "Home",
     "flash_index": 0,
     "flash_flip": False,
     "flash_category": "All Categories",
@@ -721,23 +739,30 @@ st.markdown("""
 
 with st.sidebar:
     st.header("Navigation")
-    view = st.radio(
-        "Choose your path",
-        [
-            "View A: Texas CNA Academy",
-            "View B: CNA CEUs & TULIP-Link",
-            "View C: DON or Instructors & Facility Dashboard"
-        ]
-    )
+    _view_options = [
+        "Home",
+        "View A: Texas CNA Academy",
+        "View B: CNA & TULIP",
+        "View C: DON & Facility Staff",
+        "View D: Instructors"
+    ]
+    _cur = st.session_state.get("current_view", "Home")
+    _idx = _view_options.index(_cur) if _cur in _view_options else 0
+    view = st.radio("Choose your path", _view_options, index=_idx)
+    st.session_state.current_view = view
     st.markdown("---")
-    if view == "View A: Texas CNA Academy":
+    if view == "Home":
+        st.caption("Select a section from the buttons above or use this menu.")
+    elif view == "View A: Texas CNA Academy":
         st.caption("Practice flashcards, written questions, and clinical skills review for CNA certification.")
-    elif view == "View B: CNA CEUs & TULIP-Link":
+    elif view == "View B: CNA & TULIP":
         st.caption("Track renewal progress, review in-service requirements, and stay ready for the TULIP window.")
+    elif view == "View C: DON & Facility Staff":
+        st.caption("Monitor facility-level DON compliance, verify CNA licensure status, and support TULIP renewal workflows.")
     else:
-        st.caption("Monitor facility-level DON compliance, verification tasks, and CNA renewal support workflows.")
+        st.caption("Texas state instructor requirements, curriculum guides, printable worksheets, and clinical skills checklists.")
     st.markdown("---")
-    st.caption("Built for students, active CNAs, and nursing facility leadership.")
+    st.caption("Built for students, active CNAs, facility leadership, and instructors.")
     st.markdown("### Quick start")
     st.write(
         "- Pick the view that matches your role\n"
@@ -746,9 +771,69 @@ with st.sidebar:
     )
 
 # =========================================================
+# HOME
+# =========================================================
+if view == "Home":
+    st.subheader("Welcome to TULIP-Link CNA Academy")
+    st.markdown(
+        '<div class="info-card">Select a section below to get started. Each area is designed for a specific role in the Texas CNA community.</div>',
+        unsafe_allow_html=True
+    )
+
+    h1, h2 = st.columns(2)
+    with h1:
+        st.markdown("""
+        <div class="home-btn-card">
+            <div class="home-btn-icon">📚</div>
+            <div class="home-btn-title">Texas CNA Academy</div>
+            <div class="home-btn-desc">Modules, chapters, quizzes, flashcards, and learning materials to prepare for CNA certification in Texas.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Go to Texas CNA Academy →", use_container_width=True, key="home_btn_a"):
+            st.session_state.current_view = "View A: Texas CNA Academy"
+            st.rerun()
+
+    with h2:
+        st.markdown("""
+        <div class="home-btn-card">
+            <div class="home-btn-icon">🔁</div>
+            <div class="home-btn-title">CNA &amp; TULIP</div>
+            <div class="home-btn-desc">Required state of Texas CNA CEUs, renewal timelines, TULIP portal guidance, and steps to renew your CNA license.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Go to CNA & TULIP →", use_container_width=True, key="home_btn_b"):
+            st.session_state.current_view = "View B: CNA & TULIP"
+            st.rerun()
+
+    h3, h4 = st.columns(2)
+    with h3:
+        st.markdown("""
+        <div class="home-btn-card">
+            <div class="home-btn-icon">🏥</div>
+            <div class="home-btn-title">DON &amp; Facility Staff</div>
+            <div class="home-btn-desc">Check CNA licensure status via TULIP, monitor CEU compliance for your facility's CNAs, and manage renewal workflows.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Go to DON & Facility Staff →", use_container_width=True, key="home_btn_c"):
+            st.session_state.current_view = "View C: DON & Facility Staff"
+            st.rerun()
+
+    with h4:
+        st.markdown("""
+        <div class="home-btn-card">
+            <div class="home-btn-icon">🎓</div>
+            <div class="home-btn-title">Instructors</div>
+            <div class="home-btn-desc">All instruction information required by the state of Texas for CNAs, printable PDF worksheets, and clinical skills checklists.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Go to Instructors →", use_container_width=True, key="home_btn_d"):
+            st.session_state.current_view = "View D: Instructors"
+            st.rerun()
+
+# =========================================================
 # VIEW A
 # =========================================================
-if view == "View A: Texas CNA Academy":
+elif view == "View A: Texas CNA Academy":
     st.subheader("Texas CNA Academy")
     st.markdown(
         '<div class="info-card">Focus on mastery, practice written questions, and simulate clinical skill checklists. Use the tabs to keep your review structured and efficient.</div>',
@@ -1041,8 +1126,8 @@ if view == "View A: Texas CNA Academy":
 # =========================================================
 # VIEW B
 # =========================================================
-elif view == "View B: CNA CEUs & TULIP-Link":
-    st.subheader("CNA CEUs & TULIP-Link")
+elif view == "View B: CNA & TULIP":
+    st.subheader("CNA & TULIP")
     st.markdown(
         '<div class="info-card">Review CNA renewal readiness, missing CEU requirements, and TULIP timing. Use the dashboard to prioritize the next steps before the 90-day window.</div>',
         unsafe_allow_html=True
@@ -1161,8 +1246,8 @@ elif view == "View B: CNA CEUs & TULIP-Link":
 # =========================================================
 # VIEW C
 # =========================================================
-else:
-    st.subheader("DON or Instructors & Facility Dashboard")
+elif view == "View C: DON & Facility Staff":
+    st.subheader("DON & Facility Staff")
     st.markdown(
         '<div class="info-card">Monitor facility readiness, highlight urgent CNA action items, and support TULIP compliance with clear staff-level guidance.</div>',
         unsafe_allow_html=True
@@ -1296,6 +1381,300 @@ else:
         st.write("- Evening and night shift differential opportunities")
         st.write("- Employer-sponsored CEU support")
         st.write("- Test-prep assistance and referral bonuses")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# =========================================================
+# VIEW D
+# =========================================================
+else:
+    st.subheader("Instructors")
+    st.markdown(
+        '<div class="info-card">Texas state instructor requirements, required curriculum topics, printable PDF worksheets, and clinical skills checklists for CNA programs.</div>',
+        unsafe_allow_html=True
+    )
+
+    itab1, itab2, itab3, itab4 = st.tabs([
+        "Instructor Requirements",
+        "Required Curriculum",
+        "Worksheets & Checklists",
+        "Resources & Links"
+    ])
+
+    with itab1:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown("### Texas State Requirements for CNA Instructors")
+        st.write("Per Texas HHSC regulations, individuals teaching nurse aide training programs must meet the following requirements:")
+        reqs = [
+            "Hold a current, unencumbered Registered Nurse (RN) license in Texas.",
+            "Have a minimum of two years of nursing experience, including at least one year of experience in long-term care or a related field.",
+            "Complete an approved Nurse Aide Training Program Coordinator Orientation before teaching.",
+            "Maintain familiarity with the current Texas Nurse Aide Curriculum and competency requirements.",
+            "Ensure the program includes a minimum of 100 training hours: at least 75 hours of classroom/lab instruction and 25 hours of supervised clinical training.",
+            "Provide clinical training only in a state-approved long-term care facility or comparable setting.",
+            "Maintain student records and submit program completion reports to the Texas HHSC Nurse Aide Registry (NAR).",
+            "Comply with all Texas Health and Human Services Commission (HHSC) and federal OBRA regulations governing nurse aide training.",
+        ]
+        for r in reqs:
+            st.write(f"- {r}")
+        st.markdown(
+            '<div class="info-card">Always verify current requirements directly with Texas HHSC and the Nurse Aide Registry. Requirements are subject to change.</div>',
+            unsafe_allow_html=True
+        )
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with itab2:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown("### Required Curriculum Topics (Texas)")
+        st.write("Texas-approved CNA training programs must cover the following core competency areas:")
+        curriculum = {
+            "Communication and Interpersonal Skills": [
+                "Verbal and non-verbal communication with residents, families, and team members",
+                "Reporting observations accurately to the nurse",
+                "Responding to call lights and resident requests",
+            ],
+            "Infection Control": [
+                "Hand hygiene procedures (hand washing and alcohol-based rub)",
+                "Standard precautions and transmission-based precautions",
+                "Proper use of personal protective equipment (PPE)",
+                "Handling and disposing of soiled linens and waste",
+            ],
+            "Safety and Emergency Procedures": [
+                "Fall prevention and safe resident movement",
+                "Fire and disaster response procedures",
+                "Recognizing and responding to abuse, neglect, and exploitation",
+                "Proper use of restraints per care plan",
+            ],
+            "Residents' Rights": [
+                "Privacy, dignity, and confidentiality (HIPAA basics)",
+                "Freedom from abuse and neglect",
+                "Right to make decisions and refuse treatment",
+                "Grievance procedures",
+            ],
+            "Basic Nursing Skills": [
+                "Vital signs: temperature, pulse, respiration, blood pressure",
+                "Height and weight measurement",
+                "Intake and output documentation",
+                "Catheter care and urinary elimination assistance",
+                "Bowel care and ostomy basics",
+                "Oral hygiene, bathing, grooming, and dressing",
+                "Bed making (occupied and unoccupied)",
+            ],
+            "Personal Care Skills": [
+                "Perineal care",
+                "Nail and hair care",
+                "Shaving and skin care",
+                "Denture care",
+            ],
+            "Mental Health and Social Service Needs": [
+                "Understanding dementia and Alzheimer's disease",
+                "Supporting residents with behavioral issues",
+                "Encouraging independence and resident self-esteem",
+            ],
+            "Care of Cognitively Impaired Residents": [
+                "Communication techniques for residents with dementia",
+                "Managing wandering and repetitive behaviors",
+                "Approaches for difficult behaviors",
+            ],
+            "Basic Restorative Services": [
+                "Range of motion exercises",
+                "Assistive devices and their use",
+                "Encouraging self-care and independence",
+            ],
+            "Residents with Special Needs": [
+                "Caring for residents with physical disabilities",
+                "End-of-life and palliative care basics",
+                "Caring for residents with sensory impairments",
+            ],
+        }
+        for topic, subtopics in curriculum.items():
+            with st.expander(f"📋 {topic}"):
+                for s in subtopics:
+                    st.write(f"  - {s}")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with itab3:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown("### Printable Worksheets & Clinical Skills Checklists")
+        st.write("Download and print the following resources for classroom and clinical use.")
+
+        ws_col1, ws_col2 = st.columns(2)
+
+        hand_hygiene_text = """TEXAS CNA ACADEMY — CLINICAL SKILLS CHECKLIST
+Hand Hygiene (Hand Washing)
+=============================================
+Student Name: ____________________________
+Evaluator: _______________________________
+Date: ___________________________________
+
+STEPS                                             DONE
+1. Turn on water to comfortable temperature.       [ ]
+2. Wet hands and wrists thoroughly.                [ ]
+3. Apply soap.                                     [ ]
+4. Rub hands together for at least 20 seconds,
+   cleaning all surfaces including fingernails,
+   between fingers, and back of hands.             [ ]
+5. Keep fingertips pointing downward.              [ ]
+6. Rinse hands thoroughly under running water.     [ ]
+7. Dry hands with a clean paper towel.             [ ]
+8. Use paper towel to turn off faucet.             [ ]
+9. Dispose of paper towel without recontaminating
+   clean hands.                                    [ ]
+
+PASS / NEEDS REVIEW (circle one)
+Comments: _______________________________
+"""
+        vital_signs_text = """TEXAS CNA ACADEMY — CLINICAL SKILLS CHECKLIST
+Measuring Blood Pressure (Manual)
+=============================================
+Student Name: ____________________________
+Evaluator: _______________________________
+Date: ___________________________________
+
+STEPS                                             DONE
+1. Identify resident and explain procedure.        [ ]
+2. Position resident's arm at heart level.         [ ]
+3. Expose bare arm and apply cuff 1–2 inches
+   above the antecubital space.                    [ ]
+4. Locate brachial artery and place stethoscope.   [ ]
+5. Inflate cuff to approximately 30 mmHg above
+   the point where pulse disappears.               [ ]
+6. Slowly release pressure (2–3 mmHg/sec).         [ ]
+7. Record first sound as systolic pressure.        [ ]
+8. Record last sound as diastolic pressure.        [ ]
+9. Remove cuff and ensure resident comfort.        [ ]
+10. Document reading accurately and report to
+    nurse if outside normal range.                 [ ]
+
+PASS / NEEDS REVIEW (circle one)
+Comments: _______________________________
+"""
+        transfer_text = """TEXAS CNA ACADEMY — CLINICAL SKILLS CHECKLIST
+Assisting Resident from Bed to Wheelchair (with Gait Belt)
+=============================================
+Student Name: ____________________________
+Evaluator: _______________________________
+Date: ___________________________________
+
+STEPS                                             DONE
+1. Identify resident and explain procedure.        [ ]
+2. Raise bed to working height; lock wheels.       [ ]
+3. Position wheelchair at 45° to bed; lock wheels. [ ]
+4. Remove footrests or swing them aside.           [ ]
+5. Lower bed side rails as needed.                 [ ]
+6. Apply gait belt snugly over clothing.           [ ]
+7. Assist resident to sitting position at edge
+   of bed; allow a brief pause.                    [ ]
+8. Ensure resident is wearing non-skid footwear.   [ ]
+9. Stand in front of resident; use gait belt.      [ ]
+10. Assist resident to standing; check for
+    dizziness or weakness.                         [ ]
+11. Pivot and lower resident into wheelchair.       [ ]
+12. Ensure resident is properly positioned and
+    comfortable; replace footrests.                [ ]
+13. Remove gait belt; ensure call light is within
+    reach.                                         [ ]
+14. Perform hand hygiene.                          [ ]
+
+PASS / NEEDS REVIEW (circle one)
+Comments: _______________________________
+"""
+        instructor_requirements_text = """TEXAS CNA INSTRUCTOR REQUIREMENTS — QUICK REFERENCE
+Texas HHSC Nurse Aide Training Program
+=============================================
+
+INSTRUCTOR QUALIFICATIONS
+- Current, unencumbered Texas RN license
+- Minimum 2 years nursing experience
+- Minimum 1 year experience in long-term care or related setting
+- Completion of HHSC Nurse Aide Program Coordinator Orientation
+
+PROGRAM MINIMUM HOURS
+- Total: 100 hours
+  • Classroom / Lab: at least 75 hours
+  • Supervised Clinical: at least 25 hours
+
+CLINICAL SITE REQUIREMENTS
+- Must be a state-approved long-term care facility or equivalent
+- Instructor-to-student ratio: 1:10 maximum during clinical
+
+RECORDKEEPING OBLIGATIONS
+- Maintain attendance records for all students
+- Document competency evaluations for each student
+- Submit program completion data to the Texas NAR
+- Retain records for a minimum of 3 years
+
+COMPETENCY EVALUATION
+- Written or oral examination
+- Demonstration of clinical skills
+- Evaluation must be completed before student is listed on the NAR
+
+RENEWAL AND ONGOING COMPLIANCE
+- Stay current with HHSC curriculum updates
+- Monitor student certification status via TULIP / NAR
+
+For the most current requirements, visit:
+Texas HHSC: https://www.hhs.texas.gov
+Nurse Aide Registry: Contact HHSC directly
+"""
+        with ws_col1:
+            st.markdown('<div class="soft-card"><strong>🧼 Hand Hygiene Checklist</strong><br><span class="small-muted">Clinical skills step-by-step evaluation sheet</span></div>', unsafe_allow_html=True)
+            st.download_button(
+                "⬇ Download Hand Hygiene Checklist",
+                data=hand_hygiene_text,
+                file_name="CNA_Hand_Hygiene_Checklist.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+
+            st.markdown('<div class="soft-card"><strong>🩺 Blood Pressure Checklist</strong><br><span class="small-muted">Vital signs — manual blood pressure evaluation</span></div>', unsafe_allow_html=True)
+            st.download_button(
+                "⬇ Download Blood Pressure Checklist",
+                data=vital_signs_text,
+                file_name="CNA_Blood_Pressure_Checklist.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+
+        with ws_col2:
+            st.markdown('<div class="soft-card"><strong>♿ Bed-to-Wheelchair Transfer Checklist</strong><br><span class="small-muted">Transfers and mobility evaluation sheet</span></div>', unsafe_allow_html=True)
+            st.download_button(
+                "⬇ Download Transfer Checklist",
+                data=transfer_text,
+                file_name="CNA_Transfer_Checklist.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+
+            st.markdown('<div class="soft-card"><strong>📋 Instructor Requirements Summary</strong><br><span class="small-muted">Quick-reference sheet for Texas CNA instructors</span></div>', unsafe_allow_html=True)
+            st.download_button(
+                "⬇ Download Instructor Requirements",
+                data=instructor_requirements_text,
+                file_name="Texas_CNA_Instructor_Requirements.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with itab4:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown("### Official Resources & Links")
+        st.write("The following agencies and resources are essential references for Texas CNA instructors and programs:")
+        links = [
+            ("Texas Health and Human Services Commission (HHSC)", "https://www.hhs.texas.gov", "Primary regulatory body for nurse aide training programs in Texas."),
+            ("Texas Nurse Aide Registry (NAR)", "https://www.hhs.texas.gov/providers/long-term-care-providers/nurse-aides/nurse-aide-registry", "Search CNA licensure status and manage registry listings."),
+            ("TULIP Portal", "https://www.hhs.texas.gov/providers/long-term-care-providers/nurse-aides/tulip", "Texas Online Portal for tracking CNA CEUs and submitting renewal requests."),
+            ("Prometric — CNA Testing", "https://www.prometric.com/tx-cna", "Schedule and manage Texas CNA competency evaluation (written and skills exams)."),
+            ("Federal OBRA Regulations (CMS)", "https://www.cms.gov/Medicare/Provider-Enrollment-and-Certification/GuidanceforLawsAndRegulations/NursingHomes", "Federal standards governing nurse aide training under OBRA '87."),
+        ]
+        for name, url, desc in links:
+            st.markdown(f"**[{name}]({url})**")
+            st.write(f"  {desc}")
+            st.write("")
+        st.markdown(
+            '<div class="info-card">All external links are provided for reference only. Always verify current requirements with the official agency before making program decisions.</div>',
+            unsafe_allow_html=True
+        )
         st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("---")
