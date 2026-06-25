@@ -15,15 +15,16 @@ st.set_page_config(
 st.markdown("""
 <style>
 :root{
-    --bg:#f6f5f1;
+    --bg:#f2f6fb;
     --surface:#ffffff;
-    --surface-2:#f3f4f6;
-    --surface-3:#ecfeff;
-    --text:#1f2937;
-    --muted:#6b7280;
-    --primary:#0f766e;
-    --primary-dark:#134e4a;
-    --border:#d1d5db;
+    --surface-2:#f7faff;
+    --surface-3:#edf5ff;
+    --text:#0f172a;
+    --muted:#475569;
+    --primary:#1d4ed8;
+    --primary-dark:#1e3a8a;
+    --accent:#0ea5e9;
+    --border:#dbe7f5;
     --success:#166534;
     --success-soft:#dcfce7;
     --danger:#b91c1c;
@@ -32,8 +33,8 @@ st.markdown("""
     --warning-soft:#ffedd5;
     --info:#075985;
     --info-soft:#e0f2fe;
-    --shadow:0 10px 24px rgba(15,23,42,.08);
-    --radius:18px;
+    --shadow:0 14px 34px rgba(15,23,42,.08);
+    --radius:16px;
     --radius-sm:12px;
 }
 html, body, [class*="css"] {
@@ -42,17 +43,44 @@ html, body, [class*="css"] {
 }
 body { background:var(--bg); }
 .block-container {
-    padding-top:1rem;
+    padding-top:.5rem;
     padding-bottom:4rem;
     max-width:1280px;
 }
 .main-hero{
-    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
+    background:
+        radial-gradient(circle at top right, rgba(14,165,233,.38), rgba(14,165,233,0) 44%),
+        linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
     color:white;
     border-radius:var(--radius);
-    padding:1.2rem 1.2rem;
+    padding:1.35rem 1.35rem;
     box-shadow:var(--shadow);
     margin-bottom:1rem;
+}
+.main-hero h1{
+    margin:0;
+    font-size:1.9rem;
+    font-weight:800;
+}
+.hero-sub{
+    margin-top:.45rem;
+    margin-bottom:.85rem;
+    font-size:1rem;
+    line-height:1.5;
+    color:#dbeafe;
+}
+.hero-pills{
+    display:flex;
+    gap:.5rem;
+    flex-wrap:wrap;
+}
+.hero-pill{
+    border:1px solid rgba(255,255,255,.36);
+    background:rgba(255,255,255,.14);
+    border-radius:999px;
+    padding:.26rem .7rem;
+    font-size:.82rem;
+    font-weight:700;
 }
 .card{
     background:var(--surface);
@@ -117,7 +145,7 @@ body { background:var(--bg); }
     margin-bottom:.45rem;
 }
 .sms-box{
-    background:#111827;
+    background:#0b1220;
     color:#f9fafb;
     border-radius:var(--radius-sm);
     padding:.95rem;
@@ -137,9 +165,41 @@ div[data-testid="stDataFrame"]{
     border-radius:var(--radius);
     overflow:hidden;
 }
+section[data-testid="stSidebar"]{
+    background:linear-gradient(180deg,#ffffff 0%,#f2f8ff 100%);
+    border-right:1px solid var(--border);
+}
+section[data-testid="stSidebar"] h2{
+    color:var(--primary-dark);
+    font-weight:800;
+}
+div[data-baseweb="tab-list"]{
+    gap:.4rem;
+}
+button[data-baseweb="tab"]{
+    border-radius:999px !important;
+    border:1px solid var(--border) !important;
+    background:#fff !important;
+    color:#334155 !important;
+    font-weight:700 !important;
+}
+button[data-baseweb="tab"][aria-selected="true"]{
+    border-color:var(--primary) !important;
+    color:var(--primary-dark) !important;
+    box-shadow:0 4px 14px rgba(30,58,138,.16);
+}
+button[kind="primary"]{
+    background:linear-gradient(135deg,var(--accent),var(--primary)) !important;
+    border:none !important;
+    box-shadow:0 8px 20px rgba(29,78,216,.24);
+}
+button[kind="secondary"]{
+    border:1px solid var(--border) !important;
+}
 @media (max-width:768px){
     .block-container{padding-left:.8rem;padding-right:.8rem;}
     .kpi{font-size:1.45rem;}
+    .main-hero h1{font-size:1.45rem;}
 }
 </style>
 """, unsafe_allow_html=True)
@@ -715,7 +775,12 @@ common_delay_mistakes = [
 st.markdown("""
 <div class="main-hero">
     <h1>🩺 TULIP-Link CNA Academy</h1>
-    <div>Study tools, flashcards, and TULIP renewal guidance built for Texas nurse aides and facility teams.</div>
+    <div class="hero-sub">A modern study hub for CNA exam prep, renewal readiness, and facility support workflows.</div>
+    <div class="hero-pills">
+        <span class="hero-pill">Personalized Study Paths</span>
+        <span class="hero-pill">Progress Tracking</span>
+        <span class="hero-pill">Texas Renewal Support</span>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
