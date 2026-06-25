@@ -1223,7 +1223,6 @@ if view == "View A: Texas CNA Academy":
         milestone_badge_class(readiness_pct)
     )
     st.progress(readiness_pct / 100)
-    st.write(f"Readiness score: **{readiness_pct}%** complete")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
         "Study Tracks",
@@ -1277,7 +1276,7 @@ if view == "View A: Texas CNA Academy":
     with tab2:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("### Interactive Flashcards")
-        st.markdown('<div class="info-card">Use the sidebar category filter to narrow the deck, then flip cards and mark mastery as you go.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="info-card">Use the category filter in the left sidebar to narrow the deck, then flip cards and mark mastery as you go.</div>', unsafe_allow_html=True)
 
         category = st.session_state.flash_category
         c1, c2 = st.columns([2, 1])
