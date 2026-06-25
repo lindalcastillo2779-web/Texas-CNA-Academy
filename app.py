@@ -444,6 +444,7 @@ CATEGORY_ICONS = {
 }
 
 def esc(value):
+    """Escape HTML special characters before inserting content into custom markup."""
     return html.escape(str(value))
 
 def pct(value, total):
@@ -544,6 +545,7 @@ def render_breadcrumb(items):
     st.markdown(f'<div class="breadcrumb-bar">{crumb_html}</div>', unsafe_allow_html=True)
 
 def render_progress_summary(title, score, detail, badge_text, badge_class="badge-blue"):
+    """Render a styled summary card for a percentage score and its milestone badge."""
     st.markdown(
         f"""
         <div class="progress-shell">
@@ -563,6 +565,7 @@ def render_progress_summary(title, score, detail, badge_text, badge_class="badge
     )
 
 def render_course_card(icon, badge_class, badge_text, title, description, meta_left, meta_right, progress=None, thumb_style=""):
+    """Return a reusable course-card HTML block for study tracks and CEU promos."""
     progress_html = ""
     if progress is not None:
         progress_html = f'<div class="mini-progress"><span style="width:{progress}%;"></span></div>'
@@ -1332,7 +1335,7 @@ if view == "View A: Texas CNA Academy":
                     f"""
                     <div class="soft-card interactive-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                            <span class="badge {badge_class_for_category(card['category'])}">{esc(card['category'])}</span>
+                            <span class="badge {esc(badge_class_for_category(card['category']))}">{esc(card['category'])}</span>
                             <span style="font-size:0.90rem; color:#0f5db4; font-weight:700;">{st.session_state.flash_index + 1}/{len(filtered_flashcards)}</span>
                         </div>
                         <h3>{'Answer' if st.session_state.flash_flip else 'Question'}</h3>
