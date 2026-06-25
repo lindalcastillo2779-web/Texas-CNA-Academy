@@ -823,7 +823,7 @@ if view == "Home":
         <div class="home-btn-card">
             <div class="home-btn-icon">🎓</div>
             <div class="home-btn-title">Instructors</div>
-            <div class="home-btn-desc">All instruction information required by the state of Texas for CNAs, printable PDF worksheets, and clinical skills checklists.</div>
+            <div class="home-btn-desc">All instructor information required by the state of Texas for CNAs, printable PDF worksheets, and clinical skills checklists.</div>
         </div>
         """, unsafe_allow_html=True)
         if st.button("Go to Instructors →", use_container_width=True, key="home_btn_d"):
