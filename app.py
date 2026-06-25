@@ -337,6 +337,8 @@ defaults = {
     "flash_flip": False,
     "flash_category": "All Categories",
     "flash_category_prev": "All Categories",
+    "show_main_screen": True,
+    "active_view": "View A: Texas CNA Academy",
     "mastered_cards": set(),
     "review_cards": set(),
     "written_answers": {},
@@ -789,15 +791,30 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+if st.session_state.show_main_screen:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("Main Screen")
+    st.write("Start your learning journey by opening the Texas CNA Academy experience.")
+    if st.button("Texas CNA Academy", type="primary", use_container_width=True):
+        st.session_state.active_view = "View A: Texas CNA Academy"
+        st.session_state.show_main_screen = False
+        st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
+    st.stop()
+
 with st.sidebar:
     st.header("Navigation")
+    if st.button("← Back to Main Screen", use_container_width=True):
+        st.session_state.show_main_screen = True
+        st.rerun()
     view = st.radio(
         "Choose your path",
         [
             "View A: Texas CNA Academy",
             "View B: CNA CEUs & TULIP-Link",
             "View C: DON or Instructors & Facility Dashboard"
-        ]
+        ],
+        key="active_view"
     )
     st.markdown("---")
     if view == "View A: Texas CNA Academy":
