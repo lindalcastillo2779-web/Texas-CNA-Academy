@@ -411,8 +411,37 @@ div[data-testid="stDataFrame"]{
 # HELPERS
 # =========================================================
 TODAY = date.today()
+# Readiness milestones keep the progress summaries aligned with the app's mastery-oriented study and renewal flows.
 SCORE_THRESHOLD_ON_TRACK = 85
 SCORE_THRESHOLD_BUILDING = 60
+CATEGORY_BADGE_PALETTE = {
+    "Infection Control": "badge-orange",
+    "Resident Rights": "badge-blue",
+    "Communication": "badge-green",
+    "Safety": "badge-orange",
+    "Transfers and Mobility": "badge-blue",
+    "Vital Signs": "badge-green",
+    "Elimination": "badge-orange",
+    "Nutrition and Hydration": "badge-green",
+    "Skin Care and Personal Care": "badge-blue",
+    "Mental Health and Social Needs": "badge-green",
+    "Restorative Care": "badge-orange",
+    "Documentation and Reporting": "badge-blue"
+}
+CATEGORY_ICONS = {
+    "Infection Control": "🧼",
+    "Resident Rights": "🫶",
+    "Communication": "💬",
+    "Safety": "🛡️",
+    "Transfers and Mobility": "♿",
+    "Vital Signs": "💓",
+    "Elimination": "🧪",
+    "Nutrition and Hydration": "🥗",
+    "Skin Care and Personal Care": "🧴",
+    "Mental Health and Social Needs": "🌤️",
+    "Restorative Care": "🏃",
+    "Documentation and Reporting": "📝"
+}
 
 def esc(value):
     return html.escape(str(value))
@@ -502,38 +531,10 @@ def milestone_badge_class(score):
     return "badge-blue"
 
 def badge_class_for_category(category):
-    palette = {
-        "Infection Control": "badge-orange",
-        "Resident Rights": "badge-blue",
-        "Communication": "badge-green",
-        "Safety": "badge-orange",
-        "Transfers and Mobility": "badge-blue",
-        "Vital Signs": "badge-green",
-        "Elimination": "badge-orange",
-        "Nutrition and Hydration": "badge-green",
-        "Skin Care and Personal Care": "badge-blue",
-        "Mental Health and Social Needs": "badge-green",
-        "Restorative Care": "badge-orange",
-        "Documentation and Reporting": "badge-blue"
-    }
-    return palette.get(category, "badge-blue")
+    return CATEGORY_BADGE_PALETTE.get(category, "badge-blue")
 
 def icon_for_category(category):
-    icons = {
-        "Infection Control": "🧼",
-        "Resident Rights": "🫶",
-        "Communication": "💬",
-        "Safety": "🛡️",
-        "Transfers and Mobility": "♿",
-        "Vital Signs": "💓",
-        "Elimination": "🧪",
-        "Nutrition and Hydration": "🥗",
-        "Skin Care and Personal Care": "🧴",
-        "Mental Health and Social Needs": "🌤️",
-        "Restorative Care": "🏃",
-        "Documentation and Reporting": "📝"
-    }
-    return icons.get(category, "📘")
+    return CATEGORY_ICONS.get(category, "📘")
 
 def render_breadcrumb(items):
     crumb_html = "".join(
@@ -868,7 +869,7 @@ view_meta = {
     "View B: CNA CEUs & TULIP-Link": {
         "eyebrow": "Renewal planning",
         "title": "Track CEUs and TULIP readiness in one place",
-        "description": "See readiness, missing steps, and sponsored learning opportunities with cleaner dashboards and easier scanability.",
+        "description": "See readiness, missing steps, and sponsored learning opportunities with cleaner dashboards and easier scannability.",
         "breadcrumb": ["Home", "Renewal Hub"],
         "highlights": ["Prominent progress", "Checklist-based guidance", "Sponsored CEU cards"]
     },
