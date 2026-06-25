@@ -332,13 +332,18 @@ Use official Texas HHSC forms and TULIP for real submission.
 # =========================================================
 # SESSION STATE
 # =========================================================
+VIEW_A = "View A: Texas CNA Academy"
+VIEW_B = "View B: CNA CEUs & TULIP-Link"
+VIEW_C = "View C: DON or Instructors & Facility Dashboard"
+VIEW_OPTIONS = [VIEW_A, VIEW_B, VIEW_C]
+
 defaults = {
     "flash_index": 0,
     "flash_flip": False,
     "flash_category": "All Categories",
     "flash_category_prev": "All Categories",
     "show_main_screen": True,
-    "active_view": "View A: Texas CNA Academy",
+    "active_view": VIEW_A,
     "mastered_cards": set(),
     "review_cards": set(),
     "written_answers": {},
@@ -796,7 +801,7 @@ if st.session_state.show_main_screen:
     st.subheader("Main Screen")
     st.write("Start your learning journey by opening the Texas CNA Academy experience.")
     if st.button("Texas CNA Academy", type="primary", use_container_width=True):
-        st.session_state.active_view = "View A: Texas CNA Academy"
+        st.session_state.active_view = VIEW_A
         st.session_state.show_main_screen = False
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
@@ -807,19 +812,17 @@ with st.sidebar:
     if st.button("← Back to Main Screen", use_container_width=True):
         st.session_state.show_main_screen = True
         st.rerun()
+    selected_index = VIEW_OPTIONS.index(st.session_state.active_view) if st.session_state.active_view in VIEW_OPTIONS else 0
     view = st.radio(
         "Choose your path",
-        [
-            "View A: Texas CNA Academy",
-            "View B: CNA CEUs & TULIP-Link",
-            "View C: DON or Instructors & Facility Dashboard"
-        ],
-        key="active_view"
+        VIEW_OPTIONS,
+        index=selected_index
     )
+    st.session_state.active_view = view
     st.markdown("---")
-    if view == "View A: Texas CNA Academy":
+    if view == VIEW_A:
         st.caption("Practice flashcards, written questions, and clinical skills review for CNA certification.")
-    elif view == "View B: CNA CEUs & TULIP-Link":
+    elif view == VIEW_B:
         st.caption("Track renewal progress, review in-service requirements, and stay ready for the TULIP window.")
     else:
         st.caption("Monitor facility-level DON compliance, verification tasks, and CNA renewal support workflows.")
@@ -835,7 +838,7 @@ with st.sidebar:
 # =========================================================
 # VIEW A
 # =========================================================
-if view == "View A: Texas CNA Academy":
+if view == VIEW_A:
     st.subheader("Texas CNA Academy")
     st.markdown(
         '<div class="info-card">Focus on mastery, practice written questions, and simulate clinical skill checklists. Use the tabs to keep your review structured and efficient.</div>',
@@ -1125,7 +1128,7 @@ if view == "View A: Texas CNA Academy":
 # =========================================================
 # VIEW B
 # =========================================================
-elif view == "View B: CNA CEUs & TULIP-Link":
+elif view == VIEW_B:
     st.subheader("CNA CEUs & TULIP-Link")
     st.markdown(
         '<div class="info-card">Review CNA renewal readiness, missing CEU requirements, and TULIP timing. Use the dashboard to prioritize the next steps before the 90-day window.</div>',
