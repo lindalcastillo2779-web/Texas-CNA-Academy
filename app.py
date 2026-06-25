@@ -443,7 +443,7 @@ CATEGORY_ICONS = {
     "Documentation and Reporting": "📝"
 }
 
-def esc(value):
+def escape_html(value):
     """Escape HTML special characters before inserting content into custom markup."""
     return html.escape(str(value))
 
@@ -539,7 +539,7 @@ def icon_for_category(category):
 
 def render_breadcrumb(items):
     crumb_html = "".join(
-        f"<span>{esc(item)}</span>" if idx == len(items) - 1 else f"<span>{esc(item)}</span><span>›</span>"
+        f"<span>{escape_html(item)}</span>" if idx == len(items) - 1 else f"<span>{escape_html(item)}</span><span>›</span>"
         for idx, item in enumerate(items)
     )
     st.markdown(f'<div class="breadcrumb-bar">{crumb_html}</div>', unsafe_allow_html=True)
@@ -551,12 +551,12 @@ def render_progress_summary(title, score, detail, badge_text, badge_class="badge
         <div class="progress-shell">
             <div class="progress-head">
                 <div>
-                    <div class="section-title">{esc(title)}</div>
-                    <div class="progress-copy">{esc(detail)}</div>
+                    <div class="section-title">{escape_html(title)}</div>
+                    <div class="progress-copy">{escape_html(detail)}</div>
                 </div>
                 <div style="text-align:right;">
                     <div class="progress-percent">{score}%</div>
-                    <span class="badge {esc(badge_class)}">{esc(badge_text)}</span>
+                    <span class="badge {escape_html(badge_class)}">{escape_html(badge_text)}</span>
                 </div>
             </div>
         </div>
@@ -571,14 +571,14 @@ def render_course_card(icon, badge_class, badge_text, title, description, meta_l
         progress_html = f'<div class="mini-progress"><span style="width:{progress}%;"></span></div>'
     return f"""
         <div class="card interactive-card">
-            <div class="course-thumb" style="{thumb_style}">{esc(icon)}</div>
-            <span class="badge {esc(badge_class)}">{esc(badge_text)}</span>
-            <div class="course-card-title">{esc(title)}</div>
-            <div class="course-card-copy">{esc(description)}</div>
+            <div class="course-thumb" style="{thumb_style}">{escape_html(icon)}</div>
+            <span class="badge {escape_html(badge_class)}">{escape_html(badge_text)}</span>
+            <div class="course-card-title">{escape_html(title)}</div>
+            <div class="course-card-copy">{escape_html(description)}</div>
             {progress_html}
             <div class="course-card-meta">
-                <span>{esc(meta_left)}</span>
-                <span>{esc(meta_right)}</span>
+                <span>{escape_html(meta_left)}</span>
+                <span>{escape_html(meta_right)}</span>
             </div>
         </div>
     """
@@ -1168,13 +1168,13 @@ with st.sidebar:
 
 active_view = view_meta[view]
 render_breadcrumb(active_view["breadcrumb"])
-highlight_html = "".join(f'<span class="hero-chip">{esc(item)}</span>' for item in active_view["highlights"])
+highlight_html = "".join(f'<span class="hero-chip">{escape_html(item)}</span>' for item in active_view["highlights"])
 st.markdown(
     f"""
     <div class="main-hero">
-        <div class="eyebrow">{esc(active_view["eyebrow"])}</div>
-        <div class="hero-title">🩺 {esc(active_view["title"])}</div>
-        <div class="hero-copy">{esc(active_view["description"])}</div>
+        <div class="eyebrow">{escape_html(active_view["eyebrow"])}</div>
+        <div class="hero-title">🩺 {escape_html(active_view["title"])}</div>
+        <div class="hero-copy">{escape_html(active_view["description"])}</div>
         <div class="hero-highlights">{highlight_html}</div>
     </div>
     """,
@@ -1287,7 +1287,7 @@ if view == "View A: Texas CNA Academy":
             st.markdown(
                 f"""
                 <div class="pill-row">
-                    <span class="pill">Current focus: {esc(category)}</span>
+                    <span class="pill">Current focus: {escape_html(category)}</span>
                     <span class="pill">Deck size: {len(flashcards)} cards</span>
                 </div>
                 """,
@@ -1335,11 +1335,11 @@ if view == "View A: Texas CNA Academy":
                     f"""
                     <div class="soft-card interactive-card">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                            <span class="badge {esc(badge_class_for_category(card['category']))}">{esc(card['category'])}</span>
+                            <span class="badge {escape_html(badge_class_for_category(card['category']))}">{escape_html(card['category'])}</span>
                             <span style="font-size:0.90rem; color:#0f5db4; font-weight:700;">{st.session_state.flash_index + 1}/{len(filtered_flashcards)}</span>
                         </div>
                         <h3>{'Answer' if st.session_state.flash_flip else 'Question'}</h3>
-                        <p style="font-size:1.06rem; line-height:1.6;">{esc(card['back'] if st.session_state.flash_flip else card['front'])}</p>
+                        <p style="font-size:1.06rem; line-height:1.6;">{escape_html(card['back'] if st.session_state.flash_flip else card['front'])}</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -1424,7 +1424,7 @@ if view == "View A: Texas CNA Academy":
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("### Written Practice Quiz")
         answered_written = len(st.session_state.written_answers)
-        st.progress(answered_written / len(written_quiz))
+        st.progress((answered_written / len(written_quiz)) if written_quiz else 0)
         st.caption(f"Completion: {answered_written}/{len(written_quiz)} questions answered")
         for i, item in enumerate(written_quiz):
             st.markdown(
@@ -1483,7 +1483,7 @@ if view == "View A: Texas CNA Academy":
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("### Skills Quiz")
         answered_skills = len(st.session_state.skills_answers)
-        st.progress(answered_skills / len(skills_quiz))
+        st.progress((answered_skills / len(skills_quiz)) if skills_quiz else 0)
         st.caption(f"Completion: {answered_skills}/{len(skills_quiz)} skills questions answered")
         for i, item in enumerate(skills_quiz):
             st.markdown(
