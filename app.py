@@ -36,6 +36,11 @@ st.markdown("""
     --shadow:0 14px 34px rgba(15,23,42,.08);
     --radius:16px;
     --radius-sm:12px;
+    --space-xs:.45rem;
+    --space-sm:.85rem;
+    --space-md:1rem;
+    --pill-border-opacity:.36;
+    --pill-bg-opacity:.14;
 }
 html, body, [class*="css"] {
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
@@ -63,23 +68,23 @@ body { background:var(--bg); }
     font-weight:800;
 }
 .hero-sub{
-    margin-top:.45rem;
-    margin-bottom:.85rem;
+    margin-top:var(--space-xs);
+    margin-bottom:var(--space-sm);
     font-size:1rem;
     line-height:1.5;
     color:#dbeafe;
 }
 .hero-pills{
     display:flex;
-    gap:.5rem;
+    gap:var(--space-xs);
     flex-wrap:wrap;
 }
 .hero-pill{
-    border:1px solid rgba(255,255,255,.36);
-    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,var(--pill-border-opacity));
+    background:rgba(255,255,255,var(--pill-bg-opacity));
     border-radius:999px;
     padding:.26rem .7rem;
-    font-size:.82rem;
+    font-size:.85rem;
     font-weight:700;
 }
 .card{
