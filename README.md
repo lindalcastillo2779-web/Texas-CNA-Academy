@@ -1,11 +1,11 @@
-# CNA & TULIP Texas CNA Academy
+# Texas CNA Academy
 
 A free, mobile-friendly web application for the Texas healthcare community.
 
 Built for:
-- **Students** preparing for the Texas Prometric CNA exam
-- **Active CNAs** tracking renewal, CEU hours, and their TULIP window
-- **DONs** managing facility staff compliance and pre-filling Form 5506-NAR
+- **Students** wanting to become a CNA and preparing for the Texas CNA exam
+- **Active CNAs or Inactive CNAs** can use this app to complete, or keep track of CEUs with TULIP requirements, guidance checklists and next steps.
+- **DONs & Instructors** managing facility staff education and compliance
 
 ---
 
@@ -14,7 +14,7 @@ Built for:
 ### Option 1 — Click the link
 Open this link in any browser on your phone or computer:
 
-> **[http://texascnaacademyapp.com]**
+> **[https://texascnaacademyapp.com]**
 
 ---
 
@@ -44,19 +44,13 @@ Point your phone camera at it and tap the link that appears.
 
 | User | What they do in the app |
 |---|---|
-| CNA Student | Study flashcards, take practice quizzes, use clinical skills checklists |
-| Active CNA | Track CEU hours, monitor TULIP renewal window countdown |
-| Director of Nursing and Instructors| View staff matrix, pre-fill Form 5506-NAR, send mock SMS alerts |
+| CNA Student | Texas CNA Academy- CNA Micro-Style Learning Curriculum, Clinical Skills Checklists, flashcards, quizzes, tests and progress tracker |
+| Active CNA | Track CEU hours, monitor TULIP renewal, progress tracker |
+| Director of Nursing and Instructors| View staff matrix, print checklists and forms, send SMS alerts |
 
 ---
 
 ## Texas regulatory details reflected in this app
-
-- CNA certification renews every **24 months**
-- Active CNAs must complete **24 hours** of in-service education every 2 years
-- Mandatory credits required in **Geriatric Care** and **Dementia/Alzheimer's Care**
-- The **3-Month TULIP Application Window** opens exactly **90 days** before expiration
-- **Form 5506-NAR** is the Texas Nurse Aide Registry Employment Verification Form
 
 ---
 
