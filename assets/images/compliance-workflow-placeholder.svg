@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-label="Compliance workflow placeholder">
+  <rect width="1200" height="700" fill="#F5FAF8"/>
+  <text x="60" y="90" font-size="44" font-family="Arial, sans-serif" fill="#173B2F">Compliance Workflow</text>
+  <rect x="60" y="140" width="240" height="120" rx="16" fill="#FFFFFF" stroke="#22A06B"/>
+  <text x="90" y="210" font-size="26" font-family="Arial, sans-serif" fill="#173B2F">Schedule Review</text>
+  <rect x="340" y="140" width="240" height="120" rx="16" fill="#FFFFFF" stroke="#22A06B"/>
+  <text x="375" y="210" font-size="26" font-family="Arial, sans-serif" fill="#173B2F">Credential Check</text>
+  <rect x="620" y="140" width="240" height="120" rx="16" fill="#FFFFFF" stroke="#22A06B"/>
+  <text x="660" y="210" font-size="26" font-family="Arial, sans-serif" fill="#173B2F">Gap Analysis</text>
+  <rect x="900" y="140" width="240" height="120" rx="16" fill="#FFFFFF" stroke="#22A06B"/>
+  <text x="955" y="210" font-size="26" font-family="Arial, sans-serif" fill="#173B2F">Action Plan</text>
+  <line x1="300" y1="200" x2="340" y2="200" stroke="#22A06B" stroke-width="6"/>
+  <line x1="580" y1="200" x2="620" y2="200" stroke="#22A06B" stroke-width="6"/>
+  <line x1="860" y1="200" x2="900" y2="200" stroke="#22A06B" stroke-width="6"/>
+</svg>

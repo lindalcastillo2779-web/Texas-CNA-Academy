@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-label="Renewal workflow placeholder">
+  <rect width="1200" height="700" fill="#F6F9FF"/>
+  <text x="60" y="90" font-size="44" font-family="Arial, sans-serif" fill="#1D2A44">Renewal Workflow</text>
+  <rect x="60" y="140" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#1F6FEB"/>
+  <text x="85" y="210" font-size="28" font-family="Arial, sans-serif" fill="#1D2A44">1. Check Eligibility</text>
+  <rect x="440" y="140" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#1F6FEB"/>
+  <text x="470" y="210" font-size="28" font-family="Arial, sans-serif" fill="#1D2A44">2. Verify Hours</text>
+  <rect x="820" y="140" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#1F6FEB"/>
+  <text x="850" y="210" font-size="28" font-family="Arial, sans-serif" fill="#1D2A44">3. Submit Forms</text>
+  <line x1="380" y1="200" x2="440" y2="200" stroke="#1F6FEB" stroke-width="6"/>
+  <line x1="760" y1="200" x2="820" y2="200" stroke="#1F6FEB" stroke-width="6"/>
+</svg>

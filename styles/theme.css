@@ -1,0 +1,55 @@
+:root {
+  --bg: #f6f9ff;
+  --card: #ffffff;
+  --text: #1d2a44;
+  --muted: #5a6b8a;
+  --primary: #1f6feb;
+  --border: #dbe6ff;
+}
+
+html, body, [class*="css"] {
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+}
+
+.stApp {
+  background: linear-gradient(180deg, var(--bg) 0%, #ffffff 60%);
+  color: var(--text);
+}
+
+.hero {
+  background: radial-gradient(circle at 20% 20%, #ecf3ff 0%, #ffffff 65%);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.2rem 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.subtext {
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 1px 2px rgba(30, 60, 120, 0.05);
+}
+
+.card h3 {
+  margin: 0 0 0.35rem 0;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+}
